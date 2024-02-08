@@ -48,40 +48,49 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 	carry_over := 0
 	left_over := 0
 
-	for l1 != nil || l2 != nil || carry_over == 1 {
-		if l1 == nil && l2 != nil {
-			left_over = l2.Val + carry_over
+	end_of_l1 := false
+	end_of_l2 := false
 
-			l2 = l2.Next
-		} else if l1 != nil && l2 == nil {
-			left_over = l1.Val + carry_over
+	l1_val := l1.Val
+	l2_val := l2.Val
 
-			l1 = l1.Next
-		} else if l1 == nil && l2 == nil && carry_over == 1 {
-			left_over = carry_over
-			carry_over = 0
-		} else if l1 != nil && l2 != nil {
-			left_over = l1.Val + l2.Val + carry_over
-
-            // fmt.Printf("%d\t%d\n", list1.Var, list2.Var)
-			l1 = l1.Next
-			l2 = l2.Next
-		}
+    fmt.Println("beging calculation")
+	for {
+		left_over = l1_val + l2_val + carry_over
+        fmt.Printf("\t%d|\t%d\t%d\n", l1_val, l2_val, left_over)
 
 		if left_over > 9 {
 			left_over %= 10
+			result.Val = left_over
 			carry_over = 1
 		} else {
+			result.Val = left_over
 			carry_over = 0
 		}
 
-		if l1 != nil || l2 != nil || carry_over == 1 {
-			result.Val = left_over
-			result.Next = &ListNode{Val: 0, Next: nil}
-			result = result.Next
+		if !end_of_l1 && !end_of_l2 && carry_over != 1 {
+			return head
 		}
+
+		if l1.Next != nil {
+			l1_val = l1.Next.Val
+			l1 = l1.Next
+		} else {
+			end_of_l1 = true
+			l1_val = 0
+		}
+
+		if l2.Next != nil {
+			l2_val = l2.Next.Val
+			l2 = l2.Next
+		} else {
+			end_of_l2 = true
+			l2_val = 0
+		}
+
+		result.Next = &ListNode{Val: 0, Next: nil}
+		result = result.Next
 	}
-	return head
 }
 
 func main() {
@@ -90,11 +99,12 @@ func main() {
 	node.add(2)
 	node.add(4)
 	node.add(3)
+	node.add(1)
 	node2 := ListNode{}
 	node2.add(5)
 	node2.add(6)
 	node2.add(4)
 
-    result := add_two_number(&node, &node2)
+	result := add_two_number(&node, &node2)
 	result.print()
 }
