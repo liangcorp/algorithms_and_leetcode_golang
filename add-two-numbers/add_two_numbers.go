@@ -54,10 +54,8 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 	l1_val := l1.Val
 	l2_val := l2.Val
 
-    fmt.Println("beging calculation")
 	for {
 		left_over = l1_val + l2_val + carry_over
-        fmt.Printf("\t%d|\t%d\t%d\n", l1_val, l2_val, left_over)
 
 		if left_over > 9 {
 			left_over %= 10
@@ -66,10 +64,6 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 		} else {
 			result.Val = left_over
 			carry_over = 0
-		}
-
-		if !end_of_l1 && !end_of_l2 && carry_over != 1 {
-			return head
 		}
 
 		if l1.Next != nil {
@@ -88,6 +82,10 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 			l2_val = 0
 		}
 
+		if end_of_l1 && end_of_l2 && carry_over == 0 {
+			return head
+		}
+
 		result.Next = &ListNode{Val: 0, Next: nil}
 		result = result.Next
 	}
@@ -99,7 +97,6 @@ func main() {
 	node.add(2)
 	node.add(4)
 	node.add(3)
-	node.add(1)
 	node2 := ListNode{}
 	node2.add(5)
 	node2.add(6)
