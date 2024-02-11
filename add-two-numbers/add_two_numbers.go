@@ -46,7 +46,7 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 	head := result
 
 	carry_over := 0
-	left_over := 0
+	sum := 0
 
 	end_of_l1 := false
 	end_of_l2 := false
@@ -55,16 +55,10 @@ func add_two_number(l1 *ListNode, l2 *ListNode) *ListNode {
 	l2_val := l2.Val
 
 	for {
-		left_over = l1_val + l2_val + carry_over
+		sum = l1_val + l2_val + carry_over
 
-		if left_over > 9 {
-			left_over %= 10
-			result.Val = left_over
-			carry_over = 1
-		} else {
-			result.Val = left_over
-			carry_over = 0
-		}
+		result.Val = sum % 10
+		carry_over = sum / 10
 
 		if l1.Next != nil {
 			l1_val = l1.Next.Val
